@@ -14,6 +14,10 @@ Param (
 # choco upgrade chocolatey
 # choco install 'choco-packages.config' -y
 
+function loadConfiguration() {
+
+}
+
 function  install {
     Write-Host	("Installing config {0}..." -f $config)   
 
@@ -34,7 +38,7 @@ function upgrade() {
 
 function elevate() {
     Write-Host "Elevate process."
-    [string[]]$argList = @("-ExecutionPolicy","Bypass", $MyInvocation.ScriptName, "-doit", "-installType", $installType)#, "-config", $config)
+    [string[]]$argList = @("-ExecutionPolicy","Bypass", $MyInvocation.ScriptName, "-doit", "-installType", $installType)
     if ($config -ne $null) {
         $argList += @("-config", $config)
     }
@@ -44,15 +48,25 @@ function elevate() {
 switch ($installType.ToLower()) {
     "install" { 
         if ($doit) {
+            $configFilename = [IO.Path]::ChangeExtension($MyInvocation.MyCommand.Path, "json")
+            $configuration = (Get-Content -Raw -Encoding UTF8 $configFileName) | ConvertFrom-Json
+
             install
         } else {
             $configFilename = [IO.Path]::ChangeExtension($MyInvocation.MyCommand.Path, "json")
             $configuration = (Get-Content -Raw -Encoding UTF8 $configFileName) | ConvertFrom-Json
-            if ($configuration.lists -eq $null) {
-                Write-Error "No configurations defined! (name = 'lists', value array of names)"
+            if ($configuration.packageSets -eq $null) {
+                Write-Error "No package sets defined! (name = 'packageSets', value is an object with named package sets)"
                 exit 1
             }
-            if ()
+            
+            $packageSetNames = Get-Member -InputObject $configuration.packageSets -MemberType NoteProperty | Select-Object -ExpandProperty "Name" 
+
+            if ([string]::IsNullOrEmpty($config) -or (-not $packageSetNames.Contains($config))) {
+                Write-Error ("Package set '{0}' is missing or not defined!" -f $config)
+                Write-Host -ForegroundColor Red ("You can use one of: {0}" -f [string]::Join(", ", $packageSetNames))
+                exit 2
+            }
             Write-Host "elevate"
         }
      }
