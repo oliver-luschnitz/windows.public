@@ -12,6 +12,8 @@ String.prototype.removeNL = function()
     return this.replace(/\n|\r/g, '');
 };
 
+oShell = WScript.CreateObject("WScript.shell");
+
 function doRequest() {
 	var xmlHttp = WScript.CreateObject("MSXML2.XMLHTTP");
 	xmlHttp.open( "GET", url, false ); // false for synchronous request
@@ -41,7 +43,6 @@ function doRequest() {
 			if (oldName !== name) {
 				// WScript.echo(title);
 				// WScript.echo(text);
-				oShell = WScript.CreateObject("WScript.shell");
 				oShell.Popup(text, 0, title, 0 + 64 + 4096);
 				var f = oFso.OpenTextFile(statFile, 2, true, 0);
 				f.WriteLine(name);
@@ -51,4 +52,11 @@ function doRequest() {
 	}
 }
 
-doRequest();
+try {
+	doRequest();
+} catch (err) {
+	oShell.Popup(err, 0, "FFH Wüsch Dir was", 0 + 48 + 4096);
+	WScript.sleep(5000);
+	doRequest();
+}
+
