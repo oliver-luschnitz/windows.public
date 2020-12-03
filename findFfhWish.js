@@ -47,8 +47,6 @@ function doRequest() {
 				f.WriteLine(name);
 				f.close();
 			}
-		} else {
-			WScript.echo("Parts is null");
 		}
 	}
 }
