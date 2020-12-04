@@ -13,6 +13,10 @@ String.prototype.removeNL = function()
 };
 
 oShell = WScript.CreateObject("WScript.shell");
+var showMsgBoxAlways = false;
+if (WScript.arguments.Length > 0 && WScript.arguments(0) === "-showAlways") {
+	showMsgBoxAlways = true;
+}
 
 function doRequest() {
 	var xmlHttp = WScript.CreateObject("MSXML2.XMLHTTP");
@@ -40,13 +44,17 @@ function doRequest() {
 				f.close();
 				// WScript.echo("Old Name: " + oldName);
 			}
-			if (oldName !== name) {
+			if (oldName !== name || showMsgBoxAlways) {
 				// WScript.echo(title);
 				// WScript.echo(text);
 				oShell.Popup(text, 0, title, 0 + 64 + 4096);
 				var f = oFso.OpenTextFile(statFile, 2, true, 0);
 				f.WriteLine(name);
 				f.close();
+			}
+		} else {
+			if (showMsgBoxAlways) {
+				oShell.Popup("Kein Wunsch gefunden!", 0, "FFH Wünsch Dir was", 0 + 64 + 4096);
 			}
 		}
 	}
@@ -55,7 +63,7 @@ function doRequest() {
 try {
 	doRequest();
 } catch (err) {
-	oShell.Popup(err, 0, "FFH Wüsch Dir was", 0 + 48 + 4096);
+	oShell.Popup(err.message, 0, err.name + " FFH Wüsch Dir was", 0 + 48 + 4096);
 	WScript.sleep(5000);
 	doRequest();
 }
