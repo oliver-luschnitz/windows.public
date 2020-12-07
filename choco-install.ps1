@@ -9,11 +9,6 @@ Param (
     [bool]$doit = $false
 )
 
-# Set-ExecutionPolicy Bypass -Scope Process -Force
-# iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-# choco upgrade chocolatey
-# choco install 'choco-packages.config' -y
-
 function loadConfiguration() {
     $configFilename = [IO.Path]::ChangeExtension($MyInvocation.ScriptName, "json")
     $configuration = (Get-Content -Raw -Encoding UTF8 $configFileName) | ConvertFrom-Json
@@ -31,20 +26,103 @@ function loadConfiguration() {
     $configuration
 }
 
+function Get-Value($src, $dflt) {
+    if ($src -eq $null) { return $dflt }
+    return $src
+}
+
+function UpdateList($packages, $package) {
+    foreach ($pkg in $packages) {
+        if ($pkg.name -eq $package.name) {
+            $pkg.version = Get-Value $package.version $pkg.version
+            $pkg.ignore = Get-Value $package.ignore $pkg.ignore
+            return $true
+        }
+    }
+    return $false
+}
+
 function Get-PackageSet([string]$setName) {
-    $setName
+    $pSets = @{}
+    $configuration.packageSets.psobject.properties | Foreach { $pSets[$_.Name] = $_.Value }
+    $currentPackages = @()
+    $currentSet = $pSets[$setName]
+    while ($currentSet -ne $null) {
+        foreach ($pkg in $currentSet) {
+            if ($pkg -is [string]) {
+                $p = @{
+                    name = $pkg
+                    isPackageSet = $false
+                    ignore = $false
+                    version = ""
+                }
+                if (-not (UpdateList $currentPackages $p)) { $currentPackages += $p }
+            } else {
+                $p = @{
+                    name = $pkg.name
+                    isPackageSet = Get-Value $pkg.isPackageSet $false
+                    ignore = Get-Value $pkg.ignore $false
+                    version = Get-Value $pkg.version ""
+                }
+                if ($p.isPackageSet) {
+                    $subPackages = Get-PackageSet $p.name
+                    foreach ($sp in $subPackages) {
+                        if ($p.ignore -eq $true) {
+                            $sp.ignore = $true
+                        }
+                        if (-not (UpdateList $currentPackages $sp)) { $currentPackages += $sp }
+                    }
+                } else {
+                    if (-not (UpdateList $currentPackages $p)) { $currentPackages += $p }
+                }
+            }
+        }
+        $currentSet = $null
+    }
+    $currentPackages
+}
+
+function CreateXml($packages) {
+    $xmlFilename = [IO.Path]::Combine((Get-Location), "packages.config")
+    $cmt = (" Config '{0}' created on {1:yyyy-MM-dd HH:mm:ss} " -f $config, (Get-Date))
+    [xml]$xml = [xml]::new()
+    $xml.AppendChild($xml.CreateXmlDeclaration("1.0", "UTF-8", "yes")) | Out-Null
+    $xml.AppendChild($Xml.CreateComment($cmt)) | Out-Null
+    [System.Xml.XmlElement]$root = $xml.CreateElement("packages")
+    $xml.AppendChild($root) | Out-Null
+    foreach ($pkg in $packages) {
+        if ($pkg.ignore) { continue }
+        [System.Xml.XmlElement]$p = $xml.CreateElement("package")
+        $p.SetAttribute("id", $pkg.name)
+        if (-not [string]::IsNullOrEmpty($pkg.version)) {
+            $p.SetAttribute("version", $pkg.version)
+        }
+        $root.AppendChild($p) | Out-Null
+    }
+    $xml.Save($xmlFilename)
 }
 
 function  install {
     Write-Host	("Installing config {0}..." -f $config)  
 
     $configuration = loadConfiguration
-    $packageSet = Get-PackageSet $config
-    Write-Host $packageSet
+    $packages = Get-PackageSet $config
+    $tmpDir = [IO.Path]::Combine($env:TEMP, [guid]::NewGuid())
+    if (-not (Test-Path $tmpDir)) { 
+        New-Item -ItemType Directory -Path $tmpDir | Out-Null
+    }
+    Push-Location $tmpDir 
+    CreateXml $packages
+    iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) 
+    choco upgrade chocolatey
+    choco install 'choco-packages.config' -y
+    Pop-Location
+    Remove-Item $tmpDir -Recurse
 
-	#Write-Host "Hit Enter to finish"
-	#Read-Host
+    Write-Host "Hit Enter to finish"
+	Read-Host
 }
+
 function upgrade() {
     Write-Host "Upgrading all packages"
 
