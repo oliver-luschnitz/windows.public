@@ -151,7 +151,7 @@ switch ($installType.ToLower()) {
             install
         } else {
             $configuration = loadConfiguration
-            Write-Host "elevate"
+            elevate
         }
      }
      "upgrade" {
