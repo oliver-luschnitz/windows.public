@@ -1,5 +1,5 @@
 
-var url = "https://ffh-ticker.de/aktuell/";
+var url = "https://gewinnspiel-ticker.de/aktuell/";
 var regex = new RegExp(/([0-2][0-9]:[0-5][0-9]\s+Uhr).+?<strong>([^<]+).+?<strong>([^<]+)/);
 
 String.prototype.trim = function()
