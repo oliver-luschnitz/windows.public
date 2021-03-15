@@ -1,0 +1,17 @@
+{
+  "name": "Task Executer 2",
+  "description": "Executing predefined local programs",
+  "version": "0.1",
+  "permissions": ["tabs", "activeTab"],
+  "background": {
+    "persistent": false,
+    "scripts": ["background.js"]
+  },
+  "browser_action": {
+    "default_title": "Download Youtube audio"
+  },
+  "manifest_version": 2,
+  "icons": {
+	"128": "icon-128.png"
+  }
+}
