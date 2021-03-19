@@ -1,0 +1,10 @@
+---
+Tasks:
+  ytdl:
+    Executable: C:\ProgramData\chocolatey\bin\youtube-dl.exe
+    WorkingDir: C:\Users\%USERNAME%\Music\ytdl
+    Commandlines:
+      mp3256: '--extract-audio --audio-format mp3 --audio-quality 256k --newline --no-progress -o "%(artist)s-%(title)s.%(ext)s" "{URL}"'
+      mp3: '--extract-audio --audio-format mp3 --audio-quality {Quality} --newline --no-progress -o "%(artist)s-%(title)s.%(ext)s" "{URL}"'
+    DefaultValues:
+      Quality: 192k

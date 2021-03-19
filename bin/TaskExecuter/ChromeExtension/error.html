@@ -1,0 +1,51 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Task Executer Result</title>
+</head>
+<body style="font-size: 12pt">
+<img src="taskexecuter.png" width="128">
+<h1>Task Executer</h1>
+<h2>
+    <div id="url">url</div>
+</h2>
+<div id="startedInfo">
+    <table border="1">
+        <tr>
+            <td>Task name</td>
+            <td id="taskname"></td>
+        </tr>
+        <tr>
+            <td>Counter</td>
+            <td id="counter"></td>
+        </tr>
+        <tr>
+            <td>Working dir</td>
+            <td id="workingdir"></td>
+        </tr>
+        <tr>
+            <td>Command</td>
+            <td id="command"></td>
+        </tr>
+        <tr>
+            <td>Request result</td>
+            <td id="resulturi"></td>
+        </tr>
+    </table>
+</div>
+<p id="starterfehler" style="color: red; font-weight:bold">Fehler</p>
+<div id="output">
+    <h2>Programm-Ausgabe</h2>
+    <div id="stdout"></div>
+</div>
+<div id="errors" style="display: none">
+    <h2>Programm-Fehler</h2>
+    <div id="stderr"></div>
+</div>
+<hr/>
+<div id="end">
+    <button id="shutdown">Shutdown downloader</button>
+</div>
+<script src="result.js"></script>
+</body>
+</html>
