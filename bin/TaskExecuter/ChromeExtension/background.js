@@ -3,11 +3,13 @@
 // found in the LICENSE file.
 
 chrome.browserAction.onClicked.addListener(function(tab) {
-  var req = new XMLHttpRequest();
-	req.open('GET', `http://localhost:8080/ap/TaskExecution/ytdl/mp3256?URL=${tab.url}`);
-	// req.open('GET', 'http://localhost:8080/ap/TaskExecution');
-	req.onload = function () {
-    chrome.tabs.create({url:chrome.extension.getURL(`result.html?url=${tab.url}&data=${req.responseText}`)});
-	};
-	req.send();
+    var req = new XMLHttpRequest();
+    req.open('GET', `http://localhost:8080/ap/TaskExecution/ytdl/mp3256?URL=${tab.url}`);
+    req.onload = function () {
+        chrome.tabs.create({url:chrome.extension.getURL(`result.html?url=${tab.url}&data=${encodeURI(req.responseText)}`)});
+    };
+    req.onerror = function () {
+        chrome.tabs.create({url:chrome.extension.getURL("error.html")});
+    };
+    req.send();
 });
