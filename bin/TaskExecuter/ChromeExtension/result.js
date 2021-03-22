@@ -21,7 +21,6 @@ if (!oData.error) {
     div = document.getElementById("resulturi");
     div.innerText = oData.requestResultUri;
     div = document.getElementById("shutdown");
-    div.innerText = "Shutdown";
     div.onclick = function() {
         if (window.confirm("Youtube-Downloader wirklich beenden?")) {
             var req = new XMLHttpRequest();

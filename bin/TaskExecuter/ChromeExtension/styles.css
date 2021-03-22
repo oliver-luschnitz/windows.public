@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+img {
+  max-width: 100%
+}
+
+.image {
+    width: 20px;
+    height: 20px;
+}
+
+.text {
+    margin-left: 10px;
+}
+
+.button {
+    width: 210px;
+    height: 30px;
+    background-color: lightblue;
+    text-align: center;
+    line-height: 10px;
+    border: 2px solid blue;
+    border-radius: 25px;
+    cursor: hand
+}
