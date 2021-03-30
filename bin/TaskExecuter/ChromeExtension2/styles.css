@@ -1,0 +1,74 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+#buttons {
+  justify-content: left;
+}
+
+body {
+    font-size: 12pt;
+}
+
+.main {
+    background-color: lightgray;
+    padding: 5px;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+
+img {
+  max-width: 100%
+}
+
+.image {
+    width: 20px;
+    height: 20px;
+}
+.icon {
+    width: 64px;
+    height: 64px;
+}
+
+.text {
+    margin-left: 10px;
+}
+
+.button {
+    width: 145px;
+    height: 30px;
+    background-color: lightblue;
+    text-align: center;
+    line-height: 10px;
+    border: 2px solid blue;
+    border-radius: 25px;
+    margin-top: 5px;
+}
+
+.none {
+    display: none;
+}
+
+#tasks,#cmd {
+    min-width: 165px;
+}
+
+textarea {
+    margin-top: 5px;
+    width: 590px;
+}
+
+.tooltip {
+    border: 1px solid blue;
+    border-radius: 15px;
+    padding: 5px;
+	position: absolute;
+	display: none;
+	background-color: #F3F781;
+}

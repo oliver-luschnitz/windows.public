@@ -1,0 +1,18 @@
+{
+  "name": "Task Executer 2",
+  "description": "Executing predefined local programs",
+  "version": "2.0",
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "storage"
+  ],
+  "browser_action": {
+    "default_title": "Execute local tasks",
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 2,
+  "icons": {
+    "128": "taskexecuter.png"
+  }
+}

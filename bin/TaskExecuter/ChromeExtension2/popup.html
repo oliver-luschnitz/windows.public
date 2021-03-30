@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Executer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body id="body">
+<div class="container" style="width: 600px">
+    <img src="taskexecuter.png" class="icon">
+    <div class="text">
+        <h1>Task Executer</h1>
+    </div>
+</div>
+<div class="main none" id="main">
+    <h3>Aktion auswählen</h3>
+    <div>
+        <select id="tasks">
+        </select>
+        <select id="cmd">
+        </select>
+    </div>
+    <div id="buttons" class="container">
+        <a href="#" id="start" class="button container">
+            <div class="image">
+                <img src="start.svg"/>
+            </div>
+            <div id="starttext" class="text">Start</div>
+        </a>
+        &nbsp;
+        <a href="#" id="showconfig" class="button container" target="_blank">
+            <div class="image">
+                <img src="start.svg"/>
+            </div>
+            <div id="showconfigtext" class="text">Konfiguration</div>
+        </a>
+    </div>
+    <div id="extraoptions" class="">
+        <textarea type="text" id="extraoptionvalues" rows="3"
+                  placeholder="Optionale Parameter hier eintragen"></textarea>
+    </div>
+    <hr/>
+    <a id="shutdown" class="button container">
+        <div class="image">
+            <img src="off.svg"/>
+        </div>
+        <div id="shutdowntext" class="text">Shutdown</div>
+    </a>
+</div>
+<div class="main error" id="error">
+    Der Task Executer ist nicht erreichbar.
+</div>
+<div id="optionsToolTip" class="tooltip">ToolTip text</div>
+
+<script src="popup.js"></script>
+</body>
+</html>

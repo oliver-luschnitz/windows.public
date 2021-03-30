@@ -1,10 +1,38 @@
 ---
 Tasks:
   ytdl:
+    DisplayNames:
+      Task: Youtube Downloader
+      mp3256: Audio als MP3 mit 256k
+      mp3: "Audio als MP3 mit konfigurierbarer Qualität (sdt: 192k)"
+      video: Video
+      videomp4: Video (MP4)
+      help: Hilfe anzeigen
     Executable: C:\ProgramData\chocolatey\bin\youtube-dl.exe
     WorkingDir: C:\Users\%USERNAME%\Music\ytdl
     Commandlines:
-      mp3256: '--extract-audio --audio-format mp3 --audio-quality 256k --newline --no-progress -o "%(artist)s-%(title)s.%(ext)s" "{URL}"'
-      mp3: '--extract-audio --audio-format mp3 --audio-quality {Quality} --newline --no-progress -o "%(artist)s-%(title)s.%(ext)s" "{URL}"'
+      mp3256: '--extract-audio --audio-format mp3 --audio-quality 256k --newline -o "%(artist)s-%(title)s.%(ext)s" "{URL}"'
+      mp3: '--extract-audio --audio-format mp3 --audio-quality {Quality} --newline -o "%(artist)s-%(title)s.%(ext)s" "{URL}"'
+      video: '--newline -o "%(artist)s-%(title)s.%(ext)s" "{URL}"'
+      videomp4: '--recode-video mp4 --newline -o "%(artist)s-%(title)s.%(ext)s" "{URL}"'
+      help: "--help"
     DefaultValues:
       Quality: 192k
+    CaptureOptions:
+      help:
+        useTempFile: true
+        usePreTag: true
+      "*":
+        progress:
+          regex: "^\\[download\\]\\s+(\\d{1,3}(?:\\.\\d)?)%\\s+of\\s+.+$"
+          group: 1
+  explorer:
+    DisplayNames:
+      Task: Windows Explorer
+      ytdl: MP3-Download-Ordner
+    Executable: explorer.exe
+    WorkingDir: C:\Users\%USERNAME%
+    NoTab: true
+    Commandlines:
+      ytdl: /E,Music\ytdl
+
