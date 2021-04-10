@@ -12,8 +12,10 @@ function elevate() {
 function upgrade() {
     Write-Host "Upgrading all packages"
 
-    [string[]]$packages = choco list --local
-    for ($i = 1; $i -lt $packages.length - 1; $i++) {
+    [System.Collections.Generic.List[string]]$packages = choco list --local
+	$packages.RemoveAt(0)
+	$packages.RemoveAt($packages.Count - 1)
+    for ($i = 0; $i -lt $packages.Count; $i++) {
         $package = $packages[$i].Split(" ")[0]
         choco upgrade -y $package
     }
