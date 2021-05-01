@@ -6,6 +6,7 @@ Tasks:
       mp3256: Audio als MP3 mit 256k
       mp3: "Audio als MP3 mit konfigurierbarer Qualität (sdt: 192k)"
       video: Video
+      videowebm: Video (Webm)
       videomp4: Video (MP4)
       help: Hilfe anzeigen
     Executable: C:\ProgramData\chocolatey\bin\youtube-dl.exe
@@ -15,6 +16,7 @@ Tasks:
       mp3: '--extract-audio --audio-format mp3 --audio-quality {Quality} --newline -o "%(artist)s-%(title)s.%(ext)s" "{URL}"'
       video: '--newline -o "%(artist)s-%(title)s.%(ext)s" "{URL}"'
       videomp4: '--recode-video mp4 --newline -o "%(artist)s-%(title)s.%(ext)s" "{URL}"'
+      videowebm: '--recode-video webm --newline -o "%(artist)s-%(title)s.%(ext)s" "{URL}"'
       help: "--help"
     DefaultValues:
       Quality: 192k
@@ -22,6 +24,7 @@ Tasks:
       help:
         useTempFile: true
         usePreTag: true
+        dontScroll: true
       "*":
         progress:
           regex: "^\\[download\\]\\s+(\\d{1,3}(?:\\.\\d)?)%\\s+of\\s+.+$"
@@ -35,4 +38,9 @@ Tasks:
     NoTab: true
     Commandlines:
       ytdl: /E,Music\ytdl
+  ffmpeg:
+    Executable: ffmpeg.exe
+    WorkingDir: C:\Users\%USERNAME%\Music
+    Commandlines:
+      help: "--help"
 

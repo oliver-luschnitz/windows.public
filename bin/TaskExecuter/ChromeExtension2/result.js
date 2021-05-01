@@ -76,7 +76,9 @@ function requestResult(uri) {
             fc.innerText = `Beendet mit Exitcode ${data.exitCode}.`;
             fc.style = `color: ${data.exitCode === 0 ? 'blue' : 'red'}; font-weight: bold;`;
         }
-        window.scrollTo(0,document.body.scrollHeight);
+        if (!data.dontScroll) {
+            window.scrollTo(0,document.body.scrollHeight);
+        }
     };
     req.send();
 }

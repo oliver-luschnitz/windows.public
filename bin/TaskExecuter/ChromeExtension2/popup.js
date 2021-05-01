@@ -148,13 +148,16 @@ function fillCommandSelector(taskname) {
 
 function setShutdownLink() {
     var div = document.getElementById("shutdown");
-    div.href = shutdownUri;
+    div.href = "#";
     div.onclick = function() {
-        var maindiv = document.getElementById("main");
-        maindiv.style.display = "none";
-        var errordiv = document.getElementById("error");
-        errordiv.style.display = "block";
-        setTimeout(function(){ window.close(); }, 500);
+        if (window.confirm("Youtube-Downloader wirklich beenden?")) {
+            div.href = shutdownUri;
+            var maindiv = document.getElementById("main");
+            maindiv.style.display = "none";
+            var errordiv = document.getElementById("error");
+            errordiv.style.display = "block";
+            setTimeout(function(){ window.close(); }, 500);
+        }
     };
 };
 

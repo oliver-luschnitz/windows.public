@@ -7,6 +7,8 @@ urldiv.innerText = "Requested URL: " + url;
 const data = urlParams.get('data');
 oData = JSON.parse(data);
 
+var enddiv;
+
 if (!oData.error) {
     var div = document.getElementById("starterfehler");
     div.style = "display: none";
@@ -20,6 +22,8 @@ if (!oData.error) {
     div.innerText = oData.command;
     div = document.getElementById("resulturi");
     div.innerText = oData.requestResultUri;
+    enddiv = document.getElementById("end");
+    enddiv.style.display = "none";
     div = document.getElementById("shutdown");
     div.onclick = function() {
         if (window.confirm("Youtube-Downloader wirklich beenden?")) {
@@ -29,6 +33,7 @@ if (!oData.error) {
                 var end = document.getElementById("end");
                 if (req.responseText.toLowerCase() === "true") {
                     end.innerText = "Beendet."
+                    window.setTimeout(function(){ window.close(); }, 500);
                 } else {
                     end.innerText = "Programm konnte nicht beendet werden."
                 }
@@ -54,11 +59,11 @@ function requestResult(uri) {
         var div = document.getElementById("stdout");
 
         if (data.stdout.length === 0) {
-            div.innerText = `Running (${data.requestCounter})`;
+            getCounter(div, data);
         } else {
             div.innerHTML = "";
             var elem = document.createElement("div");
-            elem.innerText = `Running (${data.requestCounter})`;
+            getCounter(elem, data);
             div.appendChild(elem);
             data.stdout.forEach(line => {
                 elem = document.createElement("div");
@@ -82,10 +87,24 @@ function requestResult(uri) {
         if (data.running) {
             setTimeout(function(){ requestResult(oData.requestResultUri); }, 1000);
         } else {
+            enddiv.style.display = "block";
             var fc = div.firstChild;
             fc.innerText = `Beendet mit Exitcode ${data.exitCode}.`;
             fc.style = `color: ${data.exitCode === 0 ? 'blue' : 'red'}; font-weight: bold;`;
         }
+        window.scrollTo(0,document.body.scrollHeight);
     };
     req.send();
+}
+
+function getCounter(parentElem, data) {
+    parentElem.innerText = "";
+    var elem1 = document.createElement("span");
+    elem1.innerText = `Running (${data.requestCounter})`;
+    parentElem.appendChild(elem1);
+    if (data.percent) {
+        var elem2 = document.createElement("span");
+        elem2.innerText = ` ${data.percent}%`;
+        parentElem.appendChild(elem2);
+    }
 }
