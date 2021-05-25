@@ -2,8 +2,21 @@
 var shell = WScript.CreateObject("WScript.Shell");
 var fso = WScript.CreateObject("Scripting.FileSystemObject");
 
+function gbl() {
+	this.shell = WScript.CreateObject("WScript.Shell");
+	this.fso = WScript.CreateObject("Scripting.FileSystemObject");
+};
+
+var iomodeForReading = 1;
+var iomodeForWriting = 2;
+var iomodeForAppending = 8;
+
+var fileFormatSystem = -2;
+var fileFormatUnicode = -1;
+var fileFormatASCII = 0;
+
 var logFilename = WScript.ScriptFullName + ".log";
-var logFile = fso.openTextFile(logFilename, 8, true, -1);
+var logFile = fso.openTextFile(logFilename, iomodeForAppending, true, fileFormatSystem);
 
 if (!String.prototype.format) {
   String.prototype.format = function() {
@@ -14,6 +27,24 @@ if (!String.prototype.format) {
         : match
       ;
     });
+  };
+}
+
+if (!String.prototype.trim) {
+  String.prototype.trim = function () {
+    return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+  };
+}
+
+if (!String.prototype.startsWith) {
+  String.prototype.startsWith = function (val) {
+    return this.substr(0, val.length) === val;
+  };
+}
+
+if (!String.prototype.endsWith) {
+  String.prototype.endsWith = function (val) {
+    return this.substr(this.length - val.length, val.length) === val;
   };
 }
 

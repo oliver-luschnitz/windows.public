@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<job>
+	<script language="JScript" src="common.js"/>
+	<script language="JScript" src="inifile.js"/>
+	<script language="JScript" src="cleanup.js"/>
+</job>
