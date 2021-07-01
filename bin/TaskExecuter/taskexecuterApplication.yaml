@@ -16,6 +16,7 @@ Tasks:
       mp3: '--extract-audio --audio-format mp3 --audio-quality {Quality} --newline -o "%(artist)s-%(title)s.%(ext)s" "{URL}"'
       video: '--newline -o "%(artist)s-%(title)s.%(ext)s" "{URL}"'
       videomp4: '--recode-video mp4 --newline -o "%(artist)s-%(title)s.%(ext)s" "{URL}"'
+      videowmv: '--recode-video wmv --newline -o "%(artist)s-%(title)s.%(ext)s" "{URL}"'
       videowebm: '--recode-video webm --newline -o "%(artist)s-%(title)s.%(ext)s" "{URL}"'
       help: "--help"
     DefaultValues:

@@ -2,10 +2,18 @@
 var shell = WScript.CreateObject("WScript.Shell");
 var fso = WScript.CreateObject("Scripting.FileSystemObject");
 
-function gbl() {
-	this.shell = WScript.CreateObject("WScript.Shell");
-	this.fso = WScript.CreateObject("Scripting.FileSystemObject");
-};
+function dirStack() {
+	this.dirs = [];
+	this.pushd = function(folder) {
+		this.dirs.push(shell.CurrentDirectory);
+		shell.CurrentDirectory = folder;
+	}
+	this.popd = function() {
+		var folder = this.dirs.pop();
+		if (folder) shell.CurrentDirectory = folder;
+	}
+}
+var dir = new dirStack();
 
 var iomodeForReading = 1;
 var iomodeForWriting = 2;

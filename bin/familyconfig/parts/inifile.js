@@ -3,7 +3,6 @@ function IniFile(name) {
 	this.Name = name;
 	this.Sections = {};
 	
-	var a = "xyz";
 	var file = fso.OpenTextFile(name, iomodeForReading, true, fileFormatUnicode);
 	var sectionName;
 	while (!file.AtEndOfStream) {
@@ -50,9 +49,3 @@ function IniFile(name) {
 		file.close();
 	}
 }
-
-var f = new IniFile("test.ini");
-log("IniFile: {0}".format(f.Name));
-f.AddValue("Hallo", "Ballo", "Gallo");
-
-f.Save();
