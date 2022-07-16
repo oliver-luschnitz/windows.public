@@ -178,11 +178,11 @@ function startTask() {
         req.open('GET', `${baseuri}/${tasksdiv.value}/${cmddiv.value}?URL=${activeTab.url}&${extraOptions}`);
         if (!noTab) {
             req.onload = function () {
-                chrome.tabs.create({url:chrome.extension.getURL(`result.html?url=${activeTab.url}&data=${encodeURI(req.responseText)}`)});
+                chrome.tabs.create({url:chrome.runtime.getURL(`result.html?url=${activeTab.url}&data=${encodeURI(req.responseText)}`)});
             };
         }
         req.onerror = function () {
-            chrome.tabs.create({url:chrome.extension.getURL("error.html")});
+            chrome.tabs.create({url:chrome.runtime.getURL("error.html")});
         };
         req.send();
     });
