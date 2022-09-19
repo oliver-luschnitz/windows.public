@@ -3,6 +3,9 @@ var urlParams = new URLSearchParams(window.location.search);
 var url = urlParams.get('url');
 var urldiv = document.getElementById("url");
 urldiv.innerText = "Requested URL: " + url;
+var enddiv = document.getElementById("end");
+enddiv.style.display = "none";
+enddiv.onclick = function() { window.close(); };
 
 const data = urlParams.get('data');
 oData = JSON.parse(data);
@@ -20,6 +23,7 @@ if (!oData.error) {
     div.innerText = oData.command;
     div = document.getElementById("resulturi");
     div.innerText = oData.requestResultUri;
+
 
     setTimeout(function(){ requestResult(oData.requestResultUri); }, 500);
 
@@ -75,6 +79,7 @@ function requestResult(uri) {
             var fc = div.firstChild;
             fc.innerText = `Beendet mit Exitcode ${data.exitCode}.`;
             fc.style = `color: ${data.exitCode === 0 ? 'blue' : 'red'}; font-weight: bold;`;
+            enddiv.style.display = "block";
         }
         if (!data.dontScroll) {
             window.scrollTo(0,document.body.scrollHeight);

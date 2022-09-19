@@ -1,18 +1,18 @@
 {
-  "name": "Task Executer Complete",
-  "description": "Executing predefined local programs",
-  "version": "2.0",
-  "permissions": [
-    "tabs",
-    "activeTab",
-    "storage"
-  ],
-  "browser_action": {
-    "default_title": "Execute local tasks",
-    "default_popup": "popup.html"
-  },
-  "manifest_version": 2,
-  "icons": {
-    "128": "taskexecuter.png"
-  }
+    "name": "Task Executer III",
+    "description": "Executing predefined local programs",
+    "version": "3.0",
+    "manifest_version": 3,
+    "icons": {
+        "128": "taskexecuter.png"
+    },
+    "permissions": [
+        "tabs",
+        "activeTab",
+        "storage"
+    ],
+    "action": {
+        "default_title": "Execute local tasks",
+        "default_popup": "popup.html"
+    }
 }
