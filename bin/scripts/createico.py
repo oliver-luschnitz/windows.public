@@ -1,4 +1,6 @@
 #!/usr/bin/env python2
+# copy to plug-in folder in gimp's profile directory
+# look up: Preferences/Folders/Plug-ins
 
 from gimpfu import *
 import time
